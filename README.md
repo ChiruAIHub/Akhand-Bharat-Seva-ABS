@@ -170,6 +170,20 @@ Use the header navigation tab to toggle between Track 1 and Track 2:
 
 ---
 
+## 🌐 Live Cloudflare Deployment & Access Points
+
+The application is published to the public internet using **Cloudflare Tunnel** (`cloudflared`):
+
+- **Live Public URL**: [https://visits-interests-gender-publicly.trycloudflare.com](https://visits-interests-gender-publicly.trycloudflare.com)
+- **Local Dev Server**: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+- **Municipal Officer Login**: [http://127.0.0.1:8000/admin/login](http://127.0.0.1:8000/admin/login) *(or [Cloudflare Admin Login](https://visits-interests-gender-publicly.trycloudflare.com/admin/login))*
+- **Admin GIS Command Map**: [http://127.0.0.1:8000/admin/map](http://127.0.0.1:8000/admin/map) *(or [Cloudflare Admin Map](https://visits-interests-gender-publicly.trycloudflare.com/admin/map))*
+- **Quick Launch Bar**: Embedded directly on the main site `http://127.0.0.1:8000/` for instant 1-click access to all portals.
+
+To launch the tunnel anytime, double-click `START_CLOUDFLARE_TUNNEL.bat`.
+
+---
+
 ## 🔐 Municipal Officer Authentication Gateway
 
 Access to administrative features (`/admin/*`) is strictly guarded by the Municipal Officer Gateway:
