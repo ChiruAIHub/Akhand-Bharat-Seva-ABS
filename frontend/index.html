@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitLaunch & Gemma Civic AI Hub - Hacktoberfest 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --card-hover: #1e293b;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --accent: #38bdf8;
+      --accent-hover: #0284c7;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --purple: #a855f7;
+      --p1-crit: #dc2626;
+      --p2-urg: #ea580c;
+      --p3-ess: #d97706;
+      --p4-civ: #0284c7;
+      --p5-stat: #64748b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 80px;
+    }
+
+    /* Sticky Navigation Header */
+    header {
+      background: rgba(17, 24, 39, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--card-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-icon {
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35);
+    }
+    .brand h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+    .brand span { font-size: 11px; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+
+    /* Track Navigation Tabs */
+    .track-nav {
+      display: flex;
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 4px;
+      gap: 4px;
+    }
+    .track-tab {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .track-tab:hover { color: #fff; background: rgba(255,255,255,0.05); }
+    .track-tab.active {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+    .track-badge {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.2);
+    }
+
+    .header-status {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--success);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+
+    /* Common Layout */
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .view-container { display: none; }
+    .view-container.active { display: block; animation: fadeIn 0.25s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Track 2 Hero Banner */
+    .civic-hero {
+      background: linear-gradient(180deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.8) 100%);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 32px 36px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .civic-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, rgba(0,0,0,0) 70%);
+      pointer-events: none;
+    }
+    .civic-hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    .civic-hero h2 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #ffffff 40%, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .civic-hero p {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 920px;
+      line-height: 1.6;
+    }
+
+    /* Analytics Metric Ribbon */
+    .metrics-ribbon {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .metric-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .metric-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+    .metric-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+    .metric-icon.blue { background: rgba(56, 189, 248, 0.12); color: var(--accent); }
+    .metric-icon.red { background: rgba(239, 68, 68, 0.12); color: var(--danger); }
+    .metric-icon.green { background: rgba(16, 185, 129, 0.12); color: var(--success); }
+    .metric-icon.purple { background: rgba(168, 85, 247, 0.12); color: var(--purple); }
+    .metric-val { font-size: 26px; font-weight: 800; font-family: 'JetBrains Mono', monospace; line-height: 1.1; }
+    .metric-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; margin-top: 4px; }
+
+    /* Civic Interactive Studio: 2 Columns */
+    .studio-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 1024px) {
+      .studio-grid { grid-template-columns: 1fr; }
+    }
+
+    .studio-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+    .studio-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 20px;
+    }
+    .studio-header h3 { font-size: 17px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .studio-header .tag { font-size: 11px; font-family: 'JetBrains Mono', monospace; padding: 4px 8px; border-radius: 6px; background: #1e293b; color: var(--accent); }
+
+    /* Presets Strip */
+    .presets-container {
+      margin-bottom: 18px;
+    }
+    .presets-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .presets-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .preset-chip {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .preset-chip:hover {
+      background: #334155;
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-bottom: 6px;
+    }
+    .form-group .hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+      font-family: inherit;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--accent);
+    }
+    .form-textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    /* Image Preview Selector */
+    .photo-preview-box {
+      border: 2px dashed #334155;
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+      background: #0b1120;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .photo-preview-box:hover { border-color: var(--accent); }
+    .photo-badge-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+    .photo-badge {
+      font-size: 11px;
+      padding: 4px 8px;
+      background: #1e293b;
+      border-radius: 6px;
+      color: #94a3b8;
+      cursor: pointer;
+    }
+    .photo-badge.active {
+      background: rgba(56, 189, 248, 0.2);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+
+    /* Submit Button */
+    .submit-civic-btn {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
+      margin-top: 10px;
+    }
+    .submit-civic-btn:hover {
+      opacity: 0.95;
+      transform: translateY(-1px);
+    }
+
+    /* Live Gemma Inspection HUD (Right Column) */
+    .hud-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      border: 2px dashed #1e293b;
+      border-radius: 12px;
+      margin: auto 0;
+    }
+    .hud-empty-icon { font-size: 36px; margin-bottom: 12px; opacity: 0.6; }
+
+    .hud-result-box { display: none; }
+    .hud-result-box.active { display: block; }
+
+    .hud-section {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .hud-section-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .key-value-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .kv-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .kv-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .kv-val {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 2px;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .badge-p1 { background: rgba(220, 38, 38, 0.2); color: #f87171; border: 1px solid rgba(220, 38, 38, 0.4); }
+    .badge-p2 { background: rgba(234, 88, 12, 0.2); color: #fb923c; border: 1px solid rgba(234, 88, 12, 0.4); }
+    .badge-p3 { background: rgba(217, 119, 6, 0.2); color: #fcd34d; border: 1px solid rgba(217, 119, 6, 0.4); }
+    .badge-p4 { background: rgba(2, 132, 199, 0.2); color: #38bdf8; border: 1px solid rgba(2, 132, 199, 0.4); }
+    .badge-p5 { background: rgba(100, 116, 139, 0.2); color: #cbd5e1; border: 1px solid rgba(100, 116, 139, 0.4); }
+
+    .border-zone-banner {
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-top: 10px;
+      font-size: 12px;
+      color: #d8b4fe;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Severity Gauge */
+    .severity-meter {
+      display: flex;
+      gap: 4px;
+      margin-top: 6px;
+    }
+    .meter-block {
+      flex: 1;
+      height: 8px;
+      border-radius: 3px;
+      background: #1e293b;
+    }
+    .meter-block.active-1 { background: #10b981; }
+    .meter-block.active-2 { background: #3b82f6; }
+    .meter-block.active-3 { background: #f59e0b; }
+    .meter-block.active-4 { background: #ea580c; }
+    .meter-block.active-5 { background: #dc2626; box-shadow: 0 0 8px rgba(220, 38, 38, 0.8); }
+
+    /* Municipal Command Feed */
+    .feed-section {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .feed-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .feed-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .feed-tab {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .feed-tab:hover { color: #fff; border-color: #475569; }
+    .feed-tab.active {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .complaints-table-container {
+      overflow-x: auto;
+    }
+    .complaints-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+    .complaints-table th {
+      padding: 12px 14px;
+      background: #0f172a;
+      color: var(--text-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .complaints-table td {
+      padding: 14px;
+      border-bottom: 1px solid #1f2937;
+      vertical-align: middle;
+    }
+    .complaints-table tr:hover td { background: rgba(255, 255, 255, 0.02); }
+
+    .action-btn-sm {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #38bdf8;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .action-btn-sm:hover { background: #0284c7; color: #fff; border-color: #0284c7; }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .modal-box {
+      background: #111827;
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      max-width: 720px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 28px;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .modal-close:hover { color: #fff; }
+
+    /* Track 1 UI Styles (Preserved) */
+    .hero {
+      max-width: 1280px;
+      margin: 40px auto 24px;
+      padding: 0 24px;
+      text-align: center;
+    }
+    .hero h2 {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #ffffff 40%, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 760px;
+      margin: 0 auto 28px;
+    }
+    .controls-wrapper {
+      max-width: 1280px;
+      margin: 0 auto 32px;
+      padding: 0 24px;
+    }
+    .search-box-row { display: flex; gap: 12px; margin-bottom: 16px; }
+    .search-box { position: relative; flex: 1; }
+    .search-box input {
+      width: 100%;
+      padding: 14px 20px 14px 48px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+    }
+    .search-box input:focus { border-color: var(--accent); }
+    .search-icon {
+      position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
+      color: var(--text-muted); font-size: 18px;
+    }
+    .search-action-btn {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 0 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .search-status-bar { font-size: 13px; color: var(--accent); margin-bottom: 12px; min-height: 20px; font-weight: 500; }
+    .filter-chips { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .chip {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .chip:hover { border-color: #4b5563; color: #fff; }
+    .chip.active { background: rgba(56, 189, 248, 0.15); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+
+    .grid-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 24px;
+    }
+    .repo-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .repo-card:hover { transform: translateY(-3px); border-color: #38bdf8; }
+    .card-top { margin-bottom: 16px; }
+    .platform-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .origin-badge { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 6px; }
+    .badge-github { background: #24292f; color: #fff; }
+    .badge-hf { background: #ffcc4d; color: #000; }
+    .badge-ollama { background: #2563eb; color: #fff; }
+    .badge-vllm { background: #9333ea; color: #fff; }
+    .badge-openrouter { background: #059669; color: #fff; }
+    .badge-modelscope { background: #dc2626; color: #fff; }
+    .badge-kaggle { background: #0284c7; color: #fff; }
+    .stars-badge { font-size: 13px; color: #fbbf24; font-weight: 600; }
+    .repo-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .repo-handle { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+    .repo-desc { font-size: 14px; color: #d1d5db; line-height: 1.5; margin-bottom: 14px; }
+    .source-box {
+      background: #0b0f19;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+    .source-box .label { color: var(--text-muted); font-size: 10px; text-transform: uppercase; font-weight: 600; display: block; }
+    .source-box a { color: var(--accent); text-decoration: none; word-break: break-all; }
+    .card-footer { display: flex; gap: 10px; margin-top: 16px; }
+    .redirect-btn {
+      flex: 1;
+      background: #1f2937;
+      border: 1px solid #374151;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .redirect-btn:hover { background: #374151; border-color: var(--accent); }
+    .secondary-btn {
+      background: transparent;
+      border: 1px solid #374151;
+      color: var(--text-muted);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .secondary-btn:hover { color: #fff; border-color: #6b7280; }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Header with Dual-Track Navigation -->
+  <header>
+    <a href="#" class="brand" onclick="switchTrack('track2'); return false;">
+      <div class="brand-icon">🏛️</div>
+      <div>
+        <h1>Gemma Civic & GitLaunch</h1>
+        <span>Hacktoberfest 2026 Unified AI Hub</span>
+      </div>
+    </a>
+
+    <!-- Dual Track Switcher -->
+    <div class="track-nav">
+      <button id="tabTrack2" class="track-tab active" onclick="switchTrack('track2')">
+        <span>🏛️ Track 2: Civic Triage & Municipal GIS</span>
+        <span class="track-badge">Gemma 4</span>
+      </button>
+      <button id="tabTrack1" class="track-tab" onclick="switchTrack('track1')">
+        <span>🌐 Track 1: GitLaunch Open AI Hub</span>
+        <span class="track-badge">70+ Repos</span>
+      </button>
+    </div>
+
+    <div class="header-status">
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        <span id="headerLiveStatus">Gemma 4 Online • 24 Corporations</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- TRACK 2: GEMMA CIVIC GRIEVANCE & MUNICIPAL ROUTING           -->
+  <!-- ============================================================ -->
+  <div id="track2-container" class="view-container active container">
+    
+    <!-- Hero Banner -->
+    <div class="civic-hero">
+      <span class="civic-hero-tag">Google Gemma 4 E4B / 12B • EmbeddingGemma 2 • Google Maps Spatial GIS</span>
+      <h2>Civic Grievance Triage & Municipal Routing Engine</h2>
+      <p>
+        Translates raw citizen voice in any Indic language or Hinglish into structured, high-priority municipal dispatches across 24 major Indian Municipal Corporations. Powered by Gemma 4 12B Multimodal Visual Severity inspection, Praja 10-year empirical SLA matrices, and Google Maps Anti-Ping-Pong border intersection routing.
+      </p>
+    </div>
+
+    <!-- Live Telemetry Ribbon -->
+    <div class="metrics-ribbon">
+      <div class="metric-card">
+        <div class="metric-icon blue">📋</div>
+        <div>
+          <div class="metric-val" id="metricTotalCases">0</div>
+          <div class="metric-label">Total Grievances</div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon red">🚨</div>
+        <div>
+          <div class="metric-val" id="metricFatalHazards" style="color: #f87171;">0</div>
+          <div class="metric-label">P1 Life Hazards Intercepted</div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon purple">🌐</div>
+        <div>
+          <div class="metric-val" id="metricBorderZones" style="color: #c084fc;">0</div>
+          <div class="metric-label">Border Zone Joint Dispatches</div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon green">🔍</div>
+        <div>
+          <div class="metric-val" id="metricDuplicates" style="color: #34d399;">0</div>
+          <div class="metric-label">Clustered Duplicates (EmbeddingGemma)</div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon blue">🛡️</div>
+        <div>
+          <div class="metric-val" id="metricVerifiedClosures">0</div>
+          <div class="metric-label">Gemma Verified Work Closures</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Civic Studio (Submission & Real-Time Inspection HUD) -->
+    <div class="studio-grid">
+      
+      <!-- Left Column: Citizen Grievance Submission -->
+      <div class="studio-card">
+        <div class="studio-header">
+          <h3><span>📝</span> Citizen Grievance Submission</h3>
+          <span class="tag">Google Maps & Gemma NLU</span>
+        </div>
+
+        <!-- 1-Click Quick Presets for Demo -->
+        <div class="presets-container">
+          <div class="presets-label">⚡ 1-Click Test Presets (Click to Auto-Fill):</div>
+          <div class="presets-chips">
+            <button class="preset-chip" onclick="loadCivicPreset('manhole')">🚨 P1 Open Manhole (Bandra)</button>
+            <button class="preset-chip" onclick="loadCivicPreset('water_burst')">💧 P2 Water Main Burst (Indiranagar)</button>
+            <button class="preset-chip" onclick="loadCivicPreset('border_pothole')">🛣️ Border Pothole (Mulund BMC/TMC)</button>
+            <button class="preset-chip" onclick="loadCivicPreset('live_wire')">⚡ P1 Live Wire (MCD Rohini)</button>
+            <button class="preset-chip" onclick="loadCivicPreset('hinglish_drain')">🗣️ Hinglish Gali Sewage (PMC)</button>
+            <button class="preset-chip" onclick="loadCivicPreset('garbage_dump')">🗑️ P3 Garbage Dump (Anna Nagar)</button>
+          </div>
+        </div>
+
+        <form id="civicForm" onsubmit="submitCivicComplaint(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Citizen Full Name</label>
+              <input type="text" id="citizenName" class="form-input" value="Rohan Kulkarni" required>
+            </div>
+            <div class="form-group">
+              <label>Mobile / WhatsApp</label>
+              <input type="text" id="citizenPhone" class="form-input" value="+91 98201 44521" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Language & Speech Input</label>
+            <select id="complaintLanguage" class="form-select">
+              <option value="auto" selected>✨ Auto-Detect (Hindi / Marathi / Hinglish / Tamil / English)</option>
+              <option value="hi">Hindi (हिन्दी)</option>
+              <option value="mr">Marathi (मराठी)</option>
+              <option value="ta">Tamil (தமிழ்)</option>
+              <option value="bn">Bengali (বাংলা)</option>
+              <option value="te">Telugu (తెలుగు)</option>
+              <option value="kn">Kannada (ಕನ್ನಡ)</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Grievance Narrative / Complaint Text</label>
+            <textarea id="complaintText" class="form-textarea" placeholder="Describe the civic issue in your own words (e.g. Hindi, Hinglish, or English)..." required>Deep crater pothole in the middle of Mulund Check Naka road, 18cm deep with broken asphalt edge, two bike riders slipped today.</textarea>
+          </div>
+
+          <!-- Multimodal Damage Photo Selector -->
+          <div class="form-group">
+            <label>Visual Damage Photo (Gemma 4 12B Vision Severity)</label>
+            <div class="photo-preview-box" onclick="togglePhotoOptions()">
+              <div id="photoStatusLabel" style="font-size: 13px; font-weight: 600; color: var(--accent);">
+                📸 Selected: Deep Asphalt Crater (Pothole Level 4/5)
+              </div>
+              <div class="photo-badge-row">
+                <span class="photo-badge active" id="pbadge-pothole" onclick="selectPresetPhoto(event, 'pothole_crater_deep.jpg', 'Deep Asphalt Crater (Pothole Level 4/5)')">Deep Crater</span>
+                <span class="photo-badge" id="pbadge-manhole" onclick="selectPresetPhoto(event, 'open_manhole_missing_cover.jpg', 'Missing Manhole Cover (Fatal Hazard Level 5/5)')">Open Manhole</span>
+                <span class="photo-badge" id="pbadge-water" onclick="selectPresetPhoto(event, 'pipeline_burst_geyser.jpg', 'Gushing Water Main Burst')">Water Burst</span>
+                <span class="photo-badge" id="pbadge-garbage" onclick="selectPresetPhoto(event, 'garbage_dump_overflow.jpg', 'Community Waste Dumper Overflow')">Garbage Overflow</span>
+                <span class="photo-badge" id="pbadge-none" onclick="selectPresetPhoto(event, '', 'No Photo Attached')">No Photo</span>
+              </div>
+              <input type="hidden" id="selectedPhotoUrl" value="pothole_crater_deep.jpg">
+            </div>
+          </div>
+
+          <!-- Google Maps Spatial GIS Selector -->
+          <div class="form-group">
+            <label>Google Maps Spatial GPS Coordinates</label>
+            <div style="margin-bottom: 8px;">
+              <select id="cityGisPreset" class="form-select" onchange="applyGisPreset(this.value)">
+                <option value="mumbai_mulund" selected>📍 Mumbai: Mulund Check Naka (BMC & TMC Border Zone)</option>
+                <option value="mumbai_fort">📍 Mumbai: Fort / CST Ward A (BMC HQ)</option>
+                <option value="pune_shivajinagar">📍 Pune: Shivajinagar Ward (PMC)</option>
+                <option value="pune_pimpri_border">📍 Pune Border: Dapodi / Kasarwadi (PMC & PCMC Border)</option>
+                <option value="bengaluru_indiranagar">📍 Bengaluru: Indiranagar East Zone (BBMP)</option>
+                <option value="delhi_rohini">📍 Delhi: Rohini Zone (MCD)</option>
+                <option value="delhi_ghaziabad_border">📍 Delhi Border: Anand Vihar / Kaushambi (MCD & GMC Border)</option>
+                <option value="chennai_annanagar">📍 Chennai: Anna Nagar Central Zone (GCC)</option>
+                <option value="hyderabad_jubileehills">📍 Hyderabad: Jubilee Hills Khairatabad (GHMC)</option>
+                <option value="kolkata_saltlake">📍 Kolkata: Salt Lake Sector V (KMC)</option>
+                <option value="ahmedabad_ellisbridge">📍 Ahmedabad: Ellisbridge West Zone (AMC)</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <input type="number" step="0.0001" id="latitude" class="form-input" value="19.1824" placeholder="Latitude">
+              <input type="number" step="0.0001" id="longitude" class="form-input" value="72.9512" placeholder="Longitude">
+            </div>
+            <div class="hint">Auto-computes Haversine distances to 24 Municipal Corporation centroids & border buffers.</div>
+          </div>
+
+          <div class="form-group">
+            <label>Locality / Landmark Hint</label>
+            <input type="text" id="localityHint" class="form-input" value="Mulund Check Naka, LBS Marg">
+          </div>
+
+          <button type="submit" class="submit-civic-btn" id="btnSubmitGrievance">
+            <span>⚡ Triage & Route with Gemma 4 & Google Maps</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Right Column: Gemma 4 Real-Time Inspection & Spatial Routing HUD -->
+      <div class="studio-card">
+        <div class="studio-header">
+          <h3><span>🧠</span> Gemma 4 Live Triage & Spatial HUD</h3>
+          <span class="tag" id="hudStatusTag">Awaiting Input</span>
+        </div>
+
+        <div id="hudEmptyState" class="hud-empty">
+          <div class="hud-empty-icon">🛰️</div>
+          <p><strong>Ready for Civic Grievance Triage</strong></p>
+          <p style="font-size: 13px; margin-top: 6px;">Submit a citizen report or select a preset to watch Gemma 4 parse Indic language, compute 12B multimodal physical severity, and dispatch via Google Maps GIS.</p>
+        </div>
+
+        <div id="hudResultBox" class="hud-result-box">
+          
+          <!-- 1. Gemma 4 NLU Triage -->
+          <div class="hud-section">
+            <div class="hud-section-title">
+              <span>1. Gemma 4 NLU Classification</span>
+              <span id="hudSectorBadge" class="badge badge-p4">Roads & Traffic</span>
+            </div>
+            <div class="key-value-list">
+              <div class="kv-item">
+                <span class="kv-label">Detected Language</span>
+                <span class="kv-val" id="hudLanguage">Hindi / Hinglish</span>
+              </div>
+              <div class="kv-item">
+                <span class="kv-label">Responsible Dept</span>
+                <span class="kv-val" id="hudDepartment">Roads & Traffic Infrastructure</span>
+              </div>
+              <div class="kv-item">
+                <span class="kv-label">Sub-Category</span>
+                <span class="kv-val" id="hudSubCategory">Potholes and Surface Craters</span>
+              </div>
+              <div class="kv-item">
+                <span class="kv-label">Extracted Street</span>
+                <span class="kv-val" id="hudStreet">LBS Marg</span>
+              </div>
+            </div>
+            <div style="margin-top: 10px; font-size: 12px; color: #cbd5e1; background: #0b1120; padding: 8px 12px; border-radius: 8px;">
+              <span style="color: var(--accent); font-weight: 600;">Staff Summary:</span>
+              <span id="hudStaffSummary">Deep crater pothole creating severe traffic hazard.</span>
+            </div>
+          </div>
+
+          <!-- 2. Multimodal Visual Damage Severity -->
+          <div class="hud-section">
+            <div class="hud-section-title">
+              <span>2. Gemma 4 12B Vision Severity Scoring</span>
+              <span id="hudSeverityScore" class="badge badge-p2">Level 4 / 5</span>
+            </div>
+            <div class="severity-meter" id="severityMeter">
+              <div class="meter-block active-4"></div>
+              <div class="meter-block active-4"></div>
+              <div class="meter-block active-4"></div>
+              <div class="meter-block active-4"></div>
+              <div class="meter-block"></div>
+            </div>
+            <div class="key-value-list" style="margin-top: 12px;">
+              <div class="kv-item">
+                <span class="kv-label">Detected Issue</span>
+                <span class="kv-val" id="hudVisualIssue">Deep Asphalt Crater</span>
+              </div>
+              <div class="kv-item">
+                <span class="kv-label">Estimated Depth</span>
+                <span class="kv-val" id="hudVisualDepth">18 cm</span>
+              </div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: #94a3b8;">
+              <span style="color: #38bdf8; font-weight: 600;">Field Crew Action:</span>
+              <span id="hudCrewAction">Rapid cold mix / mastic asphalt compaction with vibratory road roller.</span>
+            </div>
+          </div>
+
+          <!-- 3. Priority & SLA Matrix -->
+          <div class="hud-section">
+            <div class="hud-section-title">
+              <span>3. Priority & Dynamic SLA Matrix</span>
+              <span id="hudPriorityTier" class="badge badge-p1">P1_CRITICAL</span>
+            </div>
+            <div class="key-value-list">
+              <div class="kv-item">
+                <span class="kv-label">Target SLA</span>
+                <span class="kv-val" id="hudTargetSla" style="color: #f87171;">4 Hours</span>
+              </div>
+              <div class="kv-item">
+                <span class="kv-label">Praja 10-Yr Benchmark</span>
+                <span class="kv-val" id="hudPrajaBenchmark">39 Days Historical</span>
+              </div>
+              <div class="kv-item">
+                <span class="kv-label">Fatal Hazard Gate</span>
+                <span class="kv-val" id="hudFatalGate" style="color: #4ade80;">Active (Life Safety)</span>
+              </div>
+              <div class="kv-item">
+                <span class="kv-label">Monsoon Surge Multiplier</span>
+                <span class="kv-val" id="hudMonsoonSurge">+1 Tier Auto-Escalate</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Google Maps Spatial GIS Routing -->
+          <div class="hud-section">
+            <div class="hud-section-title">
+              <span>4. Google Maps Spatial GIS Routing</span>
+              <span id="hudSpatialCorp" class="badge" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8;">BMC Ward T</span>
+            </div>
+            <div class="key-value-list">
+              <div class="kv-item">
+                <span class="kv-label">Primary Corporation</span>
+                <span class="kv-val" id="hudPrimaryCorp">Brihanmumbai (BMC)</span>
+              </div>
+              <div class="kv-item">
+                <span class="kv-label">Assigned Ward</span>
+                <span class="kv-val" id="hudAssignedWard">Ward T (Mulund)</span>
+              </div>
+              <div class="kv-item" style="grid-column: span 2;">
+                <span class="kv-label">Assigned Officer</span>
+                <span class="kv-val" id="hudAssignedOfficer">Ward Junior Engineer (Ward T)</span>
+              </div>
+            </div>
+
+            <!-- Border Zone Joint Dispatch Pill -->
+            <div id="hudBorderZoneBanner" class="border-zone-banner" style="display: none;">
+              <span>🌐</span>
+              <div>
+                <strong>Anti-Ping-Pong Joint Cross-Border Dispatch Activated!</strong><br>
+                Complaint falls in the buffer intersection zone of <span id="hudBorderIntersectingCorps">Thane Municipal Corporation (TMC)</span>. Lead: BMC; Joint CC dispatched to TMC Control Room.
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. EmbeddingGemma 2 Semantic Deduplication -->
+          <div class="hud-section" id="hudDuplicateSection">
+            <div class="hud-section-title">
+              <span>5. EmbeddingGemma 2 Deduplication</span>
+              <span id="hudDuplicateBadge" class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">Unique Grievance</span>
+            </div>
+            <div id="hudDuplicateDetails" style="font-size: 12px; color: #94a3b8;">
+              No duplicate grievances registered within 2 km radius. Registered as Master Case.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Live Municipal Command Center & Complaints Feed -->
+    <div class="feed-section">
+      <div class="feed-header">
+        <div>
+          <h3 style="font-size: 18px; font-weight: 700;">🏛️ Municipal Command Center: Live Complaints Feed</h3>
+          <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Track active tickets, SLA countdowns, cross-border jurisdictions, and test Gemma Vision Proof-of-Resolution audits.</p>
+        </div>
+        <div class="feed-tabs">
+          <button class="feed-tab active" onclick="filterComplaints('all')">All Tickets (<span id="countAll">0</span>)</button>
+          <button class="feed-tab" onclick="filterComplaints('p1')">🚨 P1 Critical (<span id="countP1">0</span>)</button>
+          <button class="feed-tab" onclick="filterComplaints('border')">🌐 Border Zones (<span id="countBorder">0</span>)</button>
+          <button class="feed-tab" onclick="filterComplaints('resolved')">🛡️ Verified Resolved (<span id="countResolved">0</span>)</button>
+          <button class="feed-tab" onclick="filterComplaints('duplicate')">🔍 Clustered (<span id="countDuplicate">0</span>)</button>
+        </div>
+      </div>
+
+      <div class="complaints-table-container">
+        <table class="complaints-table">
+          <thead>
+            <tr>
+              <th>Case ID</th>
+              <th>Citizen & Locality</th>
+              <th>Sector & Department</th>
+              <th>Priority & Target SLA</th>
+              <th>Assigned Ward / Corp</th>
+              <th>Gemma Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="complaintsTableBody">
+            <tr>
+              <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">
+                Loading live municipal complaints...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TRACK 1: GITLAUNCH OPEN-SOURCE AI HUB (PRESERVED)           -->
+  <!-- ============================================================ -->
+  <div id="track1-container" class="view-container">
+    <div class="hero">
+      <h2>Unified Open-Source AI Repository & Contribution Hub</h2>
+      <p>Discover, explore, and contribute to cutting-edge open-source AI projects across GitHub, Hugging Face, Ollama, vLLM, and OpenRouter.</p>
+    </div>
+
+    <div class="controls-wrapper">
+      <div class="search-box-row">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Search by name, tags, or paste GitHub/HF repo URL (e.g. 'vllm-project/vllm')..." oninput="handleSearch(this.value)">
+        </div>
+        <button class="search-action-btn" onclick="executeSearch()">
+          <span>Search Hub</span>
+        </button>
+      </div>
+
+      <div class="search-status-bar" id="searchStatusBar"></div>
+
+      <div class="filter-chips">
+        <span class="filter-label">Filter Platform:</span>
+        <div class="chip active" data-platform="all" onclick="filterPlatform('all')">All Platforms</div>
+        <div class="chip" data-platform="GitHub" onclick="filterPlatform('GitHub')">GitHub</div>
+        <div class="chip" data-platform="Hugging Face" onclick="filterPlatform('Hugging Face')">Hugging Face</div>
+        <div class="chip" data-platform="Ollama Library" onclick="filterPlatform('Ollama Library')">Ollama</div>
+        <div class="chip" data-platform="vLLM" onclick="filterPlatform('vLLM')">vLLM</div>
+        <div class="chip" data-platform="OpenRouter" onclick="filterPlatform('OpenRouter')">OpenRouter</div>
+        <div class="chip" data-platform="ModelScope" onclick="filterPlatform('ModelScope')">ModelScope</div>
+        <div class="chip" data-platform="Kaggle" onclick="filterPlatform('Kaggle')">Kaggle</div>
+      </div>
+    </div>
+
+    <div class="grid-container" id="reposGrid">
+      <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">
+        Loading repositories catalog...
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MODAL: GEMMA 4 VISION PROOF-OF-RESOLUTION AUDITOR            -->
+  <!-- ============================================================ -->
+  <div id="resolutionAuditModal" class="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeAuditModal()">&times;</button>
+      
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+        <div style="background: rgba(16, 185, 129, 0.2); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+          🛡️
+        </div>
+        <div>
+          <h3 style="font-size: 18px; font-weight: 700;">Gemma 4 Vision Resolution Auditor</h3>
+          <p style="font-size: 12px; color: var(--text-muted);">Anti-Fraud Verification: Inspect Before vs After Work Evidence</p>
+        </div>
+      </div>
+
+      <div id="auditTicketSummary" style="background: #0f172a; border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+        <!-- Filled dynamically -->
+      </div>
+
+      <!-- Test Resolution Actions -->
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px;">
+          Simulate Field Officer Work Submission:
+        </label>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button class="action-btn-sm" style="flex: 1; padding: 10px; background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.4); color: #34d399;" onclick="runResolutionAudit(true)">
+            ✅ Submit Valid Road Repair Photo (Fresh Asphalt)
+          </button>
+          <button class="action-btn-sm" style="flex: 1; padding: 10px; background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.4); color: #f87171;" onclick="runResolutionAudit(false)">
+            🚫 Attempt Fake Closure (Desk / Blank Wall Photo)
+          </button>
+        </div>
+      </div>
+
+      <!-- Audit Output Telemetry -->
+      <div id="auditResultBox" style="display: none; background: #0b1120; border: 1px solid var(--card-border); border-radius: 12px; padding: 16px;">
+        <!-- Filled by audit result -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Track 1 AI Roadmap Modal -->
+  <div id="aiModal" class="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <h3 id="modalTitle" style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">AI Roadmap</h3>
+      <div id="modalBody">Loading...</div>
+    </div>
+  </div>
+
+  <script>
+    // Global State
+    let activeTrack = 'track2';
+    let allComplaints = [];
+    let currentFilter = 'all';
+    let activeAuditCaseId = null;
+    let allRepos = [];
+    let currentPlatform = 'all';
+
+    // Switch Tracks
+    function switchTrack(track) {
+      activeTrack = track;
+      document.querySelectorAll('.track-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.view-container').forEach(c => c.classList.remove('active'));
+
+      if (track === 'track2') {
+        document.getElementById('tabTrack2').classList.add('active');
+        document.getElementById('track2-container').classList.add('active');
+        loadCivicData();
+      } else {
+        document.getElementById('tabTrack1').classList.add('active');
+        document.getElementById('track1-container').classList.add('active');
+        if (allRepos.length === 0) loadReposData();
+      }
+    }
+
+    // -------------------------------------------------------------
+    // TRACK 2: GEMMA CIVIC ENGINE FUNCTIONS
+    // -------------------------------------------------------------
+    async function loadCivicData() {
+      try {
+        const [complaintsRes, analyticsRes] = await Promise.all([
+          fetch('/api/civic/complaints'),
+          fetch('/api/civic/analytics')
+        ]);
+        const complaintsData = await complaintsRes.json();
+        const analyticsData = await analyticsRes.json();
+
+        allComplaints = complaintsData.complaints || [];
+        renderAnalytics(analyticsData);
+        renderComplaintsTable();
+      } catch (err) {
+        console.error('Failed to load civic data:', err);
+      }
+    }
+
+    function renderAnalytics(data) {
+      document.getElementById('metricTotalCases').textContent = data.total_complaints || 0;
+      document.getElementById('metricFatalHazards').textContent = (data.priority_distribution && data.priority_distribution.P1_CRITICAL) || 0;
+      document.getElementById('metricBorderZones').textContent = data.border_zone_cases || 0;
+      document.getElementById('metricDuplicates').textContent = data.duplicate_cases || 0;
+      document.getElementById('metricVerifiedClosures').textContent = (data.status_breakdown && data.status_breakdown.VERIFIED_RESOLVED) || 0;
+      
+      // Update tab counter counts
+      document.getElementById('countAll').textContent = allComplaints.length;
+      document.getElementById('countP1').textContent = allComplaints.filter(c => c.priority_tier === 'P1_CRITICAL').length;
+      document.getElementById('countBorder').textContent = allComplaints.filter(c => c.is_border_zone).length;
+      document.getElementById('countResolved').textContent = allComplaints.filter(c => c.status === 'VERIFIED_RESOLVED').length;
+      document.getElementById('countDuplicate').textContent = allComplaints.filter(c => c.is_duplicate_ticket).length;
+    }
+
+    function renderComplaintsTable() {
+      const tbody = document.getElementById('complaintsTableBody');
+      let filtered = allComplaints;
+
+      if (currentFilter === 'p1') {
+        filtered = allComplaints.filter(c => c.priority_tier === 'P1_CRITICAL');
+      } else if (currentFilter === 'border') {
+        filtered = allComplaints.filter(c => c.is_border_zone);
+      } else if (currentFilter === 'resolved') {
+        filtered = allComplaints.filter(c => c.status === 'VERIFIED_RESOLVED');
+      } else if (currentFilter === 'duplicate') {
+        filtered = allComplaints.filter(c => c.is_duplicate_ticket);
+      }
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">No complaints found for this filter.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(c => {
+        let pClass = 'badge-p4';
+        if (c.priority_tier === 'P1_CRITICAL') pClass = 'badge-p1';
+        else if (c.priority_tier === 'P2_URGENT') pClass = 'badge-p2';
+        else if (c.priority_tier === 'P3_ESSENTIAL') pClass = 'badge-p3';
+        else if (c.priority_tier === 'P5_STATUTORY') pClass = 'badge-p5';
+
+        let borderTag = c.is_border_zone ? `
+          <div style="font-size: 10px; color: #c084fc; font-weight: 600; margin-top: 4px;">
+            🌐 Joint Dispatch: ${(c.intersecting_corporations || []).join(', ')}
+          </div>
+        ` : '';
+
+        let duplicateTag = c.is_duplicate_ticket ? `
+          <span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399; font-size: 10px;">
+            Clustered (Master ${c.duplicate_master_case_id})
+          </span>
+        ` : '';
+
+        let statusColor = '#38bdf8';
+        if (c.status === 'VERIFIED_RESOLVED') statusColor = '#34d399';
+        else if (c.status === 'CLOSURE_REJECTED') statusColor = '#f87171';
+        else if (c.status === 'DUPLICATE_LINKED') statusColor = '#a78bfa';
+
+        return `
+          <tr>
+            <td>
+              <strong style="color: #fff; font-family: 'JetBrains Mono', monospace;">${c.case_id}</strong>
+              <div style="font-size: 11px; color: var(--text-muted);">${c.created_at ? c.created_at.substring(0, 10) : ''}</div>
+            </td>
+            <td>
+              <div style="font-weight: 600; color: #e2e8f0;">${c.citizen_name || 'Resident'}</div>
+              <div style="font-size: 11px; color: var(--text-muted);">${c.locality_hint || 'Ward Center'}</div>
+            </td>
+            <td>
+              <div style="font-weight: 600; color: #fff;">${c.sector || 'General'}</div>
+              <div style="font-size: 11px; color: var(--text-muted);">${c.sub_category || ''}</div>
+            </td>
+            <td>
+              <span class="badge ${pClass}">${c.priority_tier}</span>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">SLA: ${c.target_sla || '48h'}</div>
+            </td>
+            <td>
+              <div style="font-weight: 600; color: #e2e8f0;">${c.assigned_ward || 'Central Ward'}</div>
+              <div style="font-size: 11px; color: var(--text-muted);">${c.primary_corporation || ''}</div>
+              ${borderTag}
+            </td>
+            <td>
+              <span style="font-size: 12px; font-weight: 600; color: ${statusColor};">${c.status}</span>
+              ${duplicateTag}
+            </td>
+            <td>
+              <button class="action-btn-sm" onclick="openAuditModal('${c.case_id}')">
+                Audit & Verify
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filterComplaints(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.feed-tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+      renderComplaintsTable();
+    }
+
+    // Presets
+    const CIVIC_PRESETS = {
+      manhole: {
+        name: "Sunil Deshmukh",
+        phone: "+91 98200 12345",
+        text: "Dangerous open manhole cover missing on SV Road near Bandra Station. Big hazard for pedestrians and school kids at night!",
+        photo: "open_manhole_missing_cover.jpg",
+        photoDesc: "Missing Manhole Cover (Fatal Hazard Level 5/5)",
+        presetId: "mumbai_fort",
+        hint: "SV Road near Bandra Station",
+        lang: "en"
+      },
+      water_burst: {
+        name: "Aparna Raman",
+        phone: "+91 98450 77890",
+        text: "Massive drinking water pipe burst on 100ft road Indiranagar, water gushing 10 feet high and flooding entire market road.",
+        photo: "pipeline_burst_geyser.jpg",
+        photoDesc: "Gushing Water Main Burst",
+        presetId: "bengaluru_indiranagar",
+        hint: "100 Feet Road, Indiranagar",
+        lang: "en"
+      },
+      border_pothole: {
+        name: "Deepak Sharma",
+        phone: "+91 98199 43210",
+        text: "Deep crater pothole in the middle of Mulund Check Naka road, 18cm deep with broken asphalt edge, two bike riders slipped today.",
+        photo: "pothole_crater_deep.jpg",
+        photoDesc: "Deep Asphalt Crater (Pothole Level 4/5)",
+        presetId: "mumbai_mulund",
+        hint: "Mulund Check Naka, LBS Marg",
+        lang: "en"
+      },
+      live_wire: {
+        name: "Rajesh Aggarwal",
+        phone: "+91 98110 54321",
+        text: "High voltage 11kV live electric cable snapped from transformer pole and dangling on Sector 14 market footpath in Rohini, sparking continuously!",
+        photo: "open_manhole_missing_cover.jpg",
+        photoDesc: "Live Wire Hazard (Level 5/5)",
+        presetId: "delhi_rohini",
+        hint: "Sector 14 Market, Rohini",
+        lang: "en"
+      },
+      hinglish_drain: {
+        name: "Sachin Kadam",
+        phone: "+91 98220 99887",
+        text: "Hamare gali mein drain pura choke ho gaya hai, ganda badbudaar paani sadak pe beh raha hai aur ghar ke samne jama ho gaya hai.",
+        photo: "pipeline_burst_geyser.jpg",
+        photoDesc: "Sewage Overflow (Level 3/5)",
+        presetId: "pune_shivajinagar",
+        hint: "Gali No 4, Shivajinagar",
+        lang: "hi"
+      },
+      garbage_dump: {
+        name: "Meenakshi Sundaram",
+        phone: "+91 98401 66554",
+        text: "Overflowing community waste dumper with 3 tons of rotting vegetable garbage outside Anna Nagar roundabout. Stray cattle menace.",
+        photo: "garbage_dump_overflow.jpg",
+        photoDesc: "Community Waste Dumper Overflow",
+        presetId: "chennai_annanagar",
+        hint: "2nd Avenue, Anna Nagar",
+        lang: "en"
+      }
+    };
+
+    function loadCivicPreset(key) {
+      const p = CIVIC_PRESETS[key];
+      if (!p) return;
+      document.getElementById('citizenName').value = p.name;
+      document.getElementById('citizenPhone').value = p.phone;
+      document.getElementById('complaintText').value = p.text;
+      document.getElementById('selectedPhotoUrl').value = p.photo;
+      document.getElementById('photoStatusLabel').textContent = `📸 Selected: ${p.photoDesc}`;
+      document.getElementById('cityGisPreset').value = p.presetId;
+      applyGisPreset(p.presetId);
+      document.getElementById('localityHint').value = p.hint;
+      document.getElementById('complaintLanguage').value = p.lang || 'auto';
+    }
+
+    const GIS_COORDS = {
+      mumbai_mulund: { lat: 19.1824, lng: 72.9512, hint: "Mulund Check Naka, LBS Marg" },
+      mumbai_fort: { lat: 18.9388, lng: 72.8354, hint: "Fort / CST Ward A" },
+      pune_shivajinagar: { lat: 18.5314, lng: 73.8446, hint: "Shivajinagar, FC Road" },
+      pune_pimpri_border: { lat: 18.6010, lng: 73.8200, hint: "Dapodi / Kasarwadi Border" },
+      bengaluru_indiranagar: { lat: 12.9719, lng: 77.6412, hint: "Indiranagar 100ft Road" },
+      delhi_rohini: { lat: 28.7166, lng: 77.1166, hint: "Rohini Sector 14" },
+      delhi_ghaziabad_border: { lat: 28.6470, lng: 77.3150, hint: "Anand Vihar Border" },
+      chennai_annanagar: { lat: 13.0850, lng: 80.2100, hint: "Anna Nagar Central Roundabout" },
+      hyderabad_jubileehills: { lat: 17.4325, lng: 78.4070, hint: "Jubilee Hills Road No 36" },
+      kolkata_saltlake: { lat: 22.5867, lng: 88.4178, hint: "Salt Lake Sector V" },
+      ahmedabad_ellisbridge: { lat: 23.0225, lng: 72.5714, hint: "Ellisbridge Ashram Road" }
+    };
+
+    function applyGisPreset(val) {
+      const g = GIS_COORDS[val];
+      if (g) {
+        document.getElementById('latitude').value = g.lat;
+        document.getElementById('longitude').value = g.lng;
+        document.getElementById('localityHint').value = g.hint;
+      }
+    }
+
+    function selectPresetPhoto(e, url, label) {
+      e.stopPropagation();
+      document.querySelectorAll('.photo-badge').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      document.getElementById('selectedPhotoUrl').value = url;
+      document.getElementById('photoStatusLabel').textContent = `📸 Selected: ${label}`;
+    }
+
+    function togglePhotoOptions() {
+      const photos = [
+        { url: 'pothole_crater_deep.jpg', label: 'Deep Asphalt Crater (Pothole Level 4/5)', id: 'pbadge-pothole' },
+        { url: 'open_manhole_missing_cover.jpg', label: 'Missing Manhole Cover (Fatal Hazard Level 5/5)', id: 'pbadge-manhole' },
+        { url: 'pipeline_burst_geyser.jpg', label: 'Gushing Water Main Burst', id: 'pbadge-water' },
+        { url: 'garbage_dump_overflow.jpg', label: 'Community Waste Dumper Overflow', id: 'pbadge-garbage' },
+        { url: '', label: 'No Photo Attached', id: 'pbadge-none' }
+      ];
+      const cur = document.getElementById('selectedPhotoUrl').value;
+      const idx = photos.findIndex(p => p.url === cur);
+      const next = photos[(idx + 1) % photos.length];
+      document.querySelectorAll('.photo-badge').forEach(b => b.classList.remove('active'));
+      const activeEl = document.getElementById(next.id);
+      if (activeEl) activeEl.classList.add('active');
+      document.getElementById('selectedPhotoUrl').value = next.url;
+      document.getElementById('photoStatusLabel').textContent = `📸 Selected: ${next.label}`;
+    }
+
+    async function executeSearch() {
+      const input = document.getElementById('searchInput');
+      const val = (input ? input.value : '').trim();
+      const statusBar = document.getElementById('searchStatusBar');
+      if (statusBar) {
+        statusBar.textContent = val ? `Searching catalog for "${val}"...` : 'Showing all repositories.';
+      }
+      handleSearch(val);
+    }
+
+    // Submit Grievance through Gemma 4 & Spatial Router
+    async function submitCivicComplaint(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSubmitGrievance');
+      btn.innerHTML = `<span>⏳ Running Gemma 4 Multilingual Triage & GIS...</span>`;
+      btn.disabled = true;
+
+      const payload = {
+        citizen_name: document.getElementById('citizenName').value,
+        citizen_phone: document.getElementById('citizenPhone').value,
+        text: document.getElementById('complaintText').value,
+        language: document.getElementById('complaintLanguage').value === 'auto' ? null : document.getElementById('complaintLanguage').value,
+        latitude: parseFloat(document.getElementById('latitude').value),
+        longitude: parseFloat(document.getElementById('longitude').value),
+        locality_hint: document.getElementById('localityHint').value,
+        image_name_or_url: document.getElementById('selectedPhotoUrl').value || null
+      };
+
+      try {
+        const res = await fetch('/api/civic/complaints', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const ticket = await res.json();
+
+        // Update HUD
+        renderHudTelemetry(ticket);
+        
+        // Refresh tables and stats
+        loadCivicData();
+      } catch (err) {
+        alert('Failed to submit grievance: ' + err.message);
+      } finally {
+        btn.innerHTML = `<span>⚡ Triage & Route with Gemma 4 & Google Maps</span>`;
+        btn.disabled = false;
+      }
+    }
+
+    function renderHudTelemetry(ticket) {
+      document.getElementById('hudEmptyState').style.display = 'none';
+      document.getElementById('hudResultBox').classList.add('active');
+      document.getElementById('hudStatusTag').textContent = `Case ${ticket.case_id} Created`;
+
+      // NLU
+      document.getElementById('hudSectorBadge').textContent = ticket.sector;
+      document.getElementById('hudLanguage').textContent = ticket.detected_language ? ticket.detected_language.toUpperCase() : 'EN';
+      document.getElementById('hudDepartment').textContent = ticket.responsible_dept || 'Municipal Works';
+      document.getElementById('hudSubCategory').textContent = ticket.sub_category || 'General';
+      document.getElementById('hudStreet').textContent = ticket.locality_hint || 'Ward Center';
+      document.getElementById('hudStaffSummary').textContent = ticket.staff_summary || ticket.translated_english_report || ticket.original_text;
+
+      // Vision
+      const sev = ticket.visual_severity_level || 1;
+      document.getElementById('hudSeverityScore').textContent = `Level ${sev} / 5`;
+      const blocks = document.querySelectorAll('#severityMeter .meter-block');
+      blocks.forEach((b, i) => {
+        b.className = 'meter-block';
+        if (i < sev) b.classList.add(`active-${sev}`);
+      });
+      if (ticket.visual_inspection) {
+        document.getElementById('hudVisualIssue').textContent = ticket.visual_inspection.detected_problem_type || 'Infrastructure Defect';
+        document.getElementById('hudVisualDepth').textContent = ticket.visual_inspection.estimated_dimensions || 'N/A';
+        document.getElementById('hudCrewAction').textContent = ticket.visual_inspection.recommended_field_action || 'Inspect on-site';
+      }
+
+      // Priority
+      const pTier = ticket.priority_tier || 'P3_ESSENTIAL';
+      const pBadge = document.getElementById('hudPriorityTier');
+      pBadge.textContent = pTier;
+      pBadge.className = `badge badge-${pTier.substring(0, 2).toLowerCase()}`;
+      document.getElementById('hudTargetSla').textContent = ticket.target_sla || '48h';
+      document.getElementById('hudPrajaBenchmark').textContent = ticket.historical_benchmark_avg || '30 Days Avg';
+      document.getElementById('hudFatalGate').textContent = ticket.is_fatal_hazard ? '⚠️ TRIGGERED (P1 Life Safety)' : 'Standard Safety';
+      document.getElementById('hudFatalGate').style.color = ticket.is_fatal_hazard ? '#f87171' : '#4ade80';
+      document.getElementById('hudMonsoonSurge').textContent = ticket.monsoon_surge_escalated ? 'Active (+1 Tier)' : 'Inactive';
+
+      // Spatial
+      document.getElementById('hudSpatialCorp').textContent = ticket.assigned_ward || ticket.primary_corporation;
+      document.getElementById('hudPrimaryCorp').textContent = ticket.primary_corporation;
+      document.getElementById('hudAssignedWard').textContent = ticket.assigned_ward;
+      document.getElementById('hudAssignedOfficer').textContent = ticket.assigned_officer;
+
+      // Border Zone
+      const bBanner = document.getElementById('hudBorderZoneBanner');
+      if (ticket.is_border_zone) {
+        bBanner.style.display = 'flex';
+        document.getElementById('hudBorderIntersectingCorps').textContent = (ticket.intersecting_corporations || []).join(', ');
+      } else {
+        bBanner.style.display = 'none';
+      }
+
+      // Duplicate
+      const dupSection = document.getElementById('hudDuplicateSection');
+      const dupBadge = document.getElementById('hudDuplicateBadge');
+      const dupDetails = document.getElementById('hudDuplicateDetails');
+      if (ticket.is_duplicate_ticket) {
+        dupBadge.textContent = 'Duplicate Clustered';
+        dupBadge.style.background = 'rgba(234, 88, 12, 0.2)';
+        dupBadge.style.color = '#fb923c';
+        dupDetails.innerHTML = `Linked to Master Case <strong>${ticket.duplicate_master_case_id}</strong>. Both complaints merged to prevent duplicate workforce dispatch.`;
+      } else {
+        dupBadge.textContent = 'Unique Master Grievance';
+        dupBadge.style.background = 'rgba(16, 185, 129, 0.2)';
+        dupBadge.style.color = '#34d399';
+        dupDetails.textContent = 'No duplicate grievances within 2 km radius. Registered as Master Case.';
+      }
+    }
+
+    // Modal: Proof of Resolution
+    function openAuditModal(caseId) {
+      activeAuditCaseId = caseId;
+      const c = allComplaints.find(x => x.case_id === caseId);
+      if (!c) return;
+
+      document.getElementById('auditTicketSummary').innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <strong style="color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 15px;">${c.case_id}</strong>
+          <span class="badge badge-p1">${c.priority_tier}</span>
+        </div>
+        <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 6px;">${c.original_text}</p>
+        <div style="font-size: 11px; color: var(--text-muted);">
+          Location: ${c.locality_hint} (${c.assigned_ward}, ${c.primary_corporation}) &bull; Status: <strong style="color: #38bdf8;">${c.status}</strong>
+        </div>
+      `;
+
+      document.getElementById('auditResultBox').style.display = 'none';
+      document.getElementById('resolutionAuditModal').style.display = 'flex';
+    }
+
+    function closeAuditModal() {
+      document.getElementById('resolutionAuditModal').style.display = 'none';
+    }
+
+    async function runResolutionAudit(isValid) {
+      if (!activeAuditCaseId) return;
+      const imgUrl = isValid ? 'pothole_repaired_fresh_asphalt.jpg' : 'officer_desk_blank_wall.jpg';
+
+      const box = document.getElementById('auditResultBox');
+      box.style.display = 'block';
+      box.innerHTML = `<div style="text-align: center; color: var(--accent); padding: 16px;">Gemma 4 Vision auditing before/after physical evidence...</div>`;
+
+      try {
+        const res = await fetch('/api/civic/verify-resolution', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            case_id: activeAuditCaseId,
+            after_image_url: imgUrl
+          })
+        });
+        const data = await res.json();
+        const audit = data.resolution_audit || {};
+
+        let statusBadge = audit.is_resolution_verified
+          ? `<span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">APPROVED_RESOLVED</span>`
+          : `<span class="badge" style="background: rgba(220, 38, 38, 0.2); color: #f87171;">REJECTED_FAKE_CLOSURE</span>`;
+
+        box.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <strong style="color: #fff; font-size: 14px;">Gemma 4 Vision Verification Verdict:</strong>
+            ${statusBadge}
+          </div>
+          <div style="font-size: 13px; color: #cbd5e1; margin-bottom: 8px;">
+            <strong>Observed Changes:</strong> ${audit.observed_changes || 'None'}
+          </div>
+          <div style="font-size: 13px; color: #94a3b8; margin-bottom: 8px;">
+            <strong>Auditor Notes:</strong> ${audit.auditor_notes || ''}
+          </div>
+          <div style="font-size: 11px; color: ${audit.is_fraudulent_submission ? '#f87171' : '#38bdf8'}; font-weight: 600;">
+            ${audit.is_fraudulent_submission ? '⚠️ FRAUD DETECTED: Discrepancy logged against field officer SLA record!' : '✅ Visual proof of work confirmed. Ticket officially closed.'}
+          </div>
+        `;
+
+        loadCivicData();
+      } catch (err) {
+        box.innerHTML = `<p style="color: #ef4444;">Audit failed: ${err.message}</p>`;
+      }
+    }
+
+    // -------------------------------------------------------------
+    // TRACK 1: GITLAUNCH REPO EXPLORER FUNCTIONS (PRESERVED)
+    // -------------------------------------------------------------
+    async function loadReposData() {
+      try {
+        const res = await fetch('/api/repos');
+        const data = await res.json();
+        allRepos = Array.isArray(data) ? data : (data.repositories || []);
+        renderRepos(allRepos);
+      } catch (err) {
+        console.error('Failed to load repos:', err);
+      }
+    }
+
+    function renderRepos(list) {
+      const grid = document.getElementById('reposGrid');
+      const items = Array.isArray(list) ? list : (list && list.repositories ? list.repositories : []);
+      if (!items || items.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">No repositories found.</div>`;
+        return;
+      }
+
+      grid.innerHTML = items.map(r => {
+        let badgeClass = 'badge-github';
+        const sp = (r.source_platform || '').toLowerCase();
+        if (sp.includes('hugging')) badgeClass = 'badge-hf';
+        else if (sp.includes('ollama')) badgeClass = 'badge-ollama';
+        else if (sp.includes('vllm')) badgeClass = 'badge-vllm';
+        else if (sp.includes('openrouter')) badgeClass = 'badge-openrouter';
+        else if (sp.includes('modelscope')) badgeClass = 'badge-modelscope';
+        else if (sp.includes('kaggle')) badgeClass = 'badge-kaggle';
+
+        const quickCmdHtml = r.quick_command ? `
+          <div style="background: rgba(0,0,0,0.3); border: 1px solid #1f2937; border-radius: 8px; padding: 8px 12px; margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #a5f3fc; overflow-x: auto; white-space: nowrap;">
+            <code>${r.quick_command}</code>
+          </div>
+        ` : '';
+
+        return `
+          <div class="repo-card">
+            <div class="card-top">
+              <div class="platform-header">
+                <span class="origin-badge ${badgeClass}">${r.source_platform}</span>
+                <span class="stars-badge">★ ${(r.stars || 0).toLocaleString()}</span>
+              </div>
+              <h3 class="repo-title">${r.name}</h3>
+              <div class="repo-handle">${r.repo} &bull; ${r.category}</div>
+              <p class="repo-desc">${r.description}</p>
+              
+              <div class="source-box">
+                <span class="label">Source Fetched Origin:</span>
+                <a href="${r.fetch_source_url}" target="_blank" rel="noopener noreferrer">${r.fetch_source_url} ↗</a>
+              </div>
+              ${quickCmdHtml}
+            </div>
+
+            <div class="card-footer">
+              <a href="${r.direct_redirect_url}" target="_blank" rel="noopener noreferrer" class="redirect-btn">
+                <span>Direct Open Repo</span> ↗
+              </a>
+              <button class="secondary-btn" onclick="openRoadmap('${r.repo}', '${r.name}')">
+                AI Roadmap
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterPlatform(platform) {
+      currentPlatform = platform;
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      const activeChip = document.querySelector(`.chip[data-platform="${platform}"]`);
+      if (activeChip) activeChip.classList.add('active');
+
+      if (platform === 'all') {
+        renderRepos(allRepos);
+      } else {
+        renderRepos(allRepos.filter(r => (r.source_platform || '').toLowerCase().includes(platform.toLowerCase())));
+      }
+    }
+
+    function handleSearch(val) {
+      const q = val.toLowerCase().trim();
+      if (!q) {
+        filterPlatform(currentPlatform);
+        return;
+      }
+      const matched = allRepos.filter(r => {
+        const corpus = `${r.name} ${r.repo} ${r.description} ${r.fetch_source_url} ${(r.tags || []).join(' ')}`.toLowerCase();
+        return corpus.includes(q);
+      });
+      renderRepos(matched);
+    }
+
+    async function openRoadmap(repo, name) {
+      const modal = document.getElementById('aiModal');
+      const body = document.getElementById('modalBody');
+      document.getElementById('modalTitle').textContent = `AI Roadmap: ${name}`;
+      modal.style.display = 'flex';
+      body.innerHTML = `<div style="text-align: center; padding: 30px; color: #38bdf8;">Generating AI step-by-step roadmap via OpenCode Nemotron 120B...</div>`;
+
+      try {
+        const res = await fetch('/api/issues/pr-roadmap', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ issue_id: '123' })
+        });
+        const data = await res.json();
+        
+        let stepsHtml = (data.steps || []).map(s => `
+          <div style="margin-bottom: 12px; background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1f2937;">
+            <div style="font-weight: 600; color: #fff; font-size: 13px;">Step ${s.step}: ${s.title}</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #38bdf8; margin-top: 4px;">${s.command}</div>
+          </div>
+        `).join('');
+
+        body.innerHTML = `
+          <div style="margin-bottom: 16px;">
+            <p style="color: #94a3b8; font-size: 14px; margin-bottom: 12px;">
+              Target Repository: <strong style="color: #fff;">${repo}</strong>
+            </p>
+            ${stepsHtml}
+          </div>
+          <div style="margin-top: 16px;">
+            <strong style="color: #fff; font-size: 14px;">Pre-filled PR Description:</strong>
+            <pre style="background: #000; padding: 12px; border-radius: 8px; font-size: 11px; overflow-x: auto; color: #a5f3fc; margin-top: 6px;"><code>${data.pr_markdown_description}</code></pre>
+          </div>
+        `;
+      } catch (err) {
+        body.innerHTML = `<p style="color: #ef4444;">Error generating roadmap: ${err.message}</p>`;
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('aiModal').style.display = 'none';
+    }
+
+    window.onclick = function(e) {
+      if (e.target.id === 'aiModal') closeModal();
+      if (e.target.id === 'resolutionAuditModal') closeAuditModal();
+    }
+
+    // Initial Load: Default to Track 2 for Demo
+    loadCivicData();
+    loadReposData();
+  </script>
+</body>
+</html>

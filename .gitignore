@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Angular & Build caches
+.angular/
+dist/chrome_profile/
+dist/test_cdp_profile/
+dist/*.zip
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Logs & temp
+*.log
+*.tmp
+*.pid
+*_pid.txt
+.cache
+
+# OS
+.DS_Store
+Thumbs.db

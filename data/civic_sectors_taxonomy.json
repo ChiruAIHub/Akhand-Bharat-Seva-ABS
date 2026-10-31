@@ -1,0 +1,221 @@
+{
+  "system_title": "All-India Municipal Corporation Complaint Classification Taxonomy",
+  "source": "Government of India Urban Civic Governance Research & MoHUA Framework",
+  "total_sectors": 15,
+  "sectors": [
+    {
+      "id": "solid_waste_management",
+      "sector_number": 1,
+      "name": "Solid Waste Management",
+      "responsible_dept": "Solid Waste Management (SWM) / Health",
+      "national_volume": "High",
+      "sub_categories": [
+        "Garbage not collected from residences/bins",
+        "Overflowing communal dumper bins",
+        "Illegal open garbage dumping & burning",
+        "Failure of source waste segregation",
+        "Dead animal / carcass removal"
+      ],
+      "keywords": ["garbage", "kachra", "dump", "dustbin", "waste", "trash", "carcass", "dead animal", "burning waste", "sweeping", "dumper", "குப்பை", "చెత్త", "कचरा", "घाण"]
+    },
+    {
+      "id": "roads_and_infrastructure",
+      "sector_number": 2,
+      "name": "Roads and Infrastructure",
+      "responsible_dept": "Civil Engineering / Works Dept.",
+      "national_volume": "High",
+      "sub_categories": [
+        "Dangerous potholes & cratered surfaces",
+        "Broken pavements & missing footpath slabs",
+        "Damaged bridges, culverts & flyovers",
+        "Unfinished road excavations & road-cutting",
+        "Missing road dividers & speed breaker damage"
+      ],
+      "keywords": ["pothole", "gaddha", "crater", "road broken", "footpath", "sidewalk", "divider", "speed breaker", "bridge", "flyover", "excavation", "சாலை", "குழி", "రహదారి", "గుంత", "रस्ता", "खड्डा", "सड़क", "गड्ढा"]
+    },
+    {
+      "id": "drainage_and_sewage",
+      "sector_number": 3,
+      "name": "Drainage and Sewage",
+      "responsible_dept": "Drainage & Sewerage Operations",
+      "national_volume": "High",
+      "sub_categories": [
+        "Blocked underground storm drains & gutters",
+        "Overflowing sewage lines on streets",
+        "Broken or missing manhole covers (fatal hazard)",
+        "Monsoon street waterlogging & backflow",
+        "Ruptured or collapsed sewage conduits"
+      ],
+      "keywords": ["drain", "drainage", "gutter", "manhole", "sewage", "sewer", "waterlogging", "flooding", "nalah", "choked drain", "overflowing sewage", "சாக்கடை", "கழிவுநீர்", "முరుగునీరు", "డ్రైనేజీ", "सांडपाणी", "गटर", "नाली"]
+    },
+    {
+      "id": "water_supply",
+      "sector_number": 4,
+      "name": "Water Supply",
+      "responsible_dept": "Hydraulic Engineering / Water Works",
+      "national_volume": "High",
+      "sub_categories": [
+        "Severe water pipeline leakage & burst mains",
+        "Contaminated, turbid or foul-smelling water",
+        "Irregular or skipped scheduled supply hours",
+        "Low supply pressure at consumer terminals",
+        "Broken public standposts & unmetered leaks"
+      ],
+      "keywords": ["water", "paani", "pipeline", "leak", "pipe burst", "contaminated water", "dirty water", "no water", "low pressure", "tanker", "standpost", "தண்ணீர்", "குடிநீர்", "குழாய்", "నీరు", "మంచినీరు", "పైప్", "पाणी", "जल", "पानी"]
+    },
+    {
+      "id": "street_lighting_and_electricity",
+      "sector_number": 5,
+      "name": "Street Lighting & Electricity",
+      "responsible_dept": "Electrical Engineering Dept.",
+      "national_volume": "Medium",
+      "sub_categories": [
+        "Non-functional / dark streetlamps",
+        "Damaged electrical poles & tilting poles",
+        "Dangerous exposed live wires & junction boxes",
+        "Dark unlit arterial stretches / women safety"
+      ],
+      "keywords": ["streetlight", "light", "dark", "lamp", "electric pole", "live wire", "electric wire", "electric cable", "sparking", "junction box", "meter", "dark road", "transformer", "electricity", "current", "விளக்கு", "மின்சாரம்", "లైట్లు", "విద్యుత్", "दिवा", "वीज", "बिजली", "बत्ती"]
+    },
+    {
+      "id": "parks_and_public_spaces",
+      "sector_number": 6,
+      "name": "Parks and Public Spaces",
+      "responsible_dept": "Gardens & Tree Authority",
+      "national_volume": "Medium",
+      "sub_categories": [
+        "Neglected municipal gardens & wild grass",
+        "Damaged children playground equipment",
+        "Broken park benches, boundary gates & lights",
+        "Encroachment of designated green zones"
+      ],
+      "keywords": ["park", "garden", "playground", "swing", "bench", "grass", "trees", "branches falling", "public space"]
+    },
+    {
+      "id": "public_health_and_sanitation",
+      "sector_number": 7,
+      "name": "Public Health & Sanitation",
+      "responsible_dept": "Public Health Department",
+      "national_volume": "High",
+      "sub_categories": [
+        "Stagnant water & mosquito breeding grounds",
+        "Vector-borne disease (Dengue, Malaria) fogging",
+        "Filthy, unmaintained public & community toilets",
+        "Unhygienic public urinals & open defecation spots"
+      ],
+      "keywords": ["mosquito", "dengue", "malaria", "fogging", "public toilet", "urinal", "stagnant water", "sanitation", "filth", "disease"]
+    },
+    {
+      "id": "encroachment_and_illegal_works",
+      "sector_number": 8,
+      "name": "Encroachment & Illegal Works",
+      "responsible_dept": "Encroachment / Building Proposal Dept.",
+      "national_volume": "High",
+      "sub_categories": [
+        "Unauthorized building construction & floor additions",
+        "Hawkers blocking footpaths & carriageways",
+        "Unauthorized kiosks, commercial banners & hoardings",
+        "Illegal occupation of municipal / public land"
+      ],
+      "keywords": ["encroachment", "illegal construction", "hawkers", "footpath blocked", "illegal banner", "hoarding", "land grab"]
+    },
+    {
+      "id": "stray_animal_control",
+      "sector_number": 9,
+      "name": "Stray Animal Control",
+      "responsible_dept": "Veterinary & Animal Husbandry",
+      "national_volume": "Medium",
+      "sub_categories": [
+        "Stray dog aggressive packs & dog bite incidents",
+        "Stray cattle creating traffic hazards on roads",
+        "Dead animal carcass clearance from public roads",
+        "Monkey nuisance in residential localities"
+      ],
+      "keywords": ["stray dog", "dog bite", "cattle", "cow on road", "monkey", "rabies", "dead dog", "animal menace"]
+    },
+    {
+      "id": "food_safety_and_markets",
+      "sector_number": 10,
+      "name": "Food Safety & Markets",
+      "responsible_dept": "Public Health / Market Licensing",
+      "national_volume": "Medium",
+      "sub_categories": [
+        "Unhygienic street vending & uncovered food items",
+        "Uninspected meat & slaughterhouse premises",
+        "Filthy conditions in municipal fish/vegetable markets",
+        "Illegal commercial trade without food safety audit"
+      ],
+      "keywords": ["food safety", "street food", "unhygienic", "slaughterhouse", "meat shop", "fish market", "adulteration"]
+    },
+    {
+      "id": "municipal_hospitals_and_clinics",
+      "sector_number": 11,
+      "name": "Municipal Hospitals & Clinics",
+      "responsible_dept": "Health & Hospital Administration",
+      "national_volume": "Medium",
+      "sub_categories": [
+        "Poor sanitary conditions in civic dispensaries",
+        "Out-of-stock essential drugs & vaccines",
+        "Staff negligence, absenteeism or rude behavior",
+        "Inoperable diagnostic equipment & ambulances"
+      ],
+      "keywords": ["hospital", "dispensary", "clinic", "doctor", "medicine out of stock", "ambulance", "health center"]
+    },
+    {
+      "id": "traffic_and_public_amenities",
+      "sector_number": 12,
+      "name": "Traffic & Public Amenities",
+      "responsible_dept": "Traffic & Transportation Cell",
+      "national_volume": "Medium",
+      "sub_categories": [
+        "Damaged or vandalized civic bus shelters",
+        "Illegal or chaotic roadside parking management",
+        "Broken road signs & missing reflective indicators",
+        "Obstructions caused by abandoned scrap vehicles"
+      ],
+      "keywords": ["bus stop", "bus shelter", "parking", "signboard", "abandoned car", "traffic obstruction", "traffic signal"]
+    },
+    {
+      "id": "property_tax_and_revenue",
+      "sector_number": 13,
+      "name": "Property Tax & Revenue",
+      "responsible_dept": "Assessment & Collection (Revenue)",
+      "national_volume": "Medium",
+      "sub_categories": [
+        "Incorrect property tax valuation assessments",
+        "Discrepancies in issued property tax bills",
+        "Payment failure or missing receipt credits",
+        "Property mutation and registry correction delays"
+      ],
+      "keywords": ["property tax", "tax bill", "mutation", "receipt", "assessment", "house tax", "valuation"]
+    },
+    {
+      "id": "certificates_and_citizen_services",
+      "sector_number": 14,
+      "name": "Certificates & Citizen Services",
+      "responsible_dept": "Citizen Service Centers (CFC)",
+      "national_volume": "Medium",
+      "sub_categories": [
+        "Inordinate delays in issuing Birth/Death certificates",
+        "Clerical error rectification in civil certificates",
+        "Trade license issuance & annual renewal friction",
+        "Delayed municipal NOCs and approvals"
+      ],
+      "keywords": ["birth certificate", "death certificate", "trade license", "noc", "certificate correction", "cfc", "citizen center"]
+    },
+    {
+      "id": "municipal_administration",
+      "sector_number": 15,
+      "name": "Municipal Administration",
+      "responsible_dept": "Vigilance & Chief Inquiry Officer",
+      "national_volume": "Low",
+      "sub_categories": [
+        "Bribery, extortion or vigilance complaints",
+        "Wilful negligence by assigned field ward staff",
+        "Inordinate delays in redressing earlier tickets",
+        "Violation of citizen charter redressal timelines"
+      ],
+      "keywords": ["bribe", "corruption", "vigilance", "officer absent", "harassment", "negligence", "unresolved complaint"]
+    }
+  ]
+}
