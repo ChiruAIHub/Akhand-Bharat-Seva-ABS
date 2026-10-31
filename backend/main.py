@@ -208,6 +208,11 @@ class UpdateStatusRequest(BaseModel):
     remarks: Optional[str] = Field(default="Status updated by Ward Administrator", description="Administrative remarks")
     officer_name: Optional[str] = Field(default="Ward Admin", description="Officer full name / ID")
 
+
+class MunicipalLoginRequest(BaseModel):
+    email: str = Field(..., description="Official municipal email address")
+    access_code: str = Field(..., description="Municipal officer security code")
+
 # -------------------------------------------------------------
 # 1. GET /api/health and GET /health
 # -------------------------------------------------------------
@@ -221,6 +226,7 @@ def get_health():
     return {
         "status": "online",
         "service": "GitLaunch & Civic Triage Unified AI Hub",
+        "ai_engine": "OpenCode Nemotron 3.5 Super VL 120B (Active)",
         "track_1_ai": "OpenCode Nemotron 3.5 Super VL 120B (Active)",
         "track_2_ai": "Google Gemma 4 E4B/12B + EmbeddingGemma 2 (Active)",
         "total_repositories": len(repos),
@@ -535,7 +541,12 @@ def get_civic_taxonomy():
 @app.get("/api/civic/corporations")
 def get_municipal_corporations():
     """Returns the 24 Major Indian Municipal Corporations GIS database with centroids, areas, and wards."""
-    return load_gis_database()
+    data = load_gis_database()
+    # Preserve the original data key while supporting the API name used by the
+    # dashboard and verification harnesses.
+    if "major_municipal_corporations" not in data and "corporations" in data:
+        data = {**data, "major_municipal_corporations": data["corporations"]}
+    return data
 
 
 # -------------------------------------------------------------
@@ -626,6 +637,195 @@ def get_auth_me(request: Request):
         "authenticated": True,
         "officer": officer
     }
+
+
+@app.post("/api/civic/auth/officer-login")
+def municipal_api_login(req: MunicipalLoginRequest, request: Request, response: Response):
+    """JSON login endpoint used by the Angular command-center client."""
+    email = req.email.strip().lower()
+    officer = authenticate_officer(email, req.access_code)
+    if officer is None:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid municipal email or security code.")
+
+    response.set_cookie(
+        key="officer_session",
+        value=generate_session_token(email),
+        httponly=True,
+        secure=request.url.scheme == "https",
+        samesite="lax",
+        max_age=60 * 60 * 8,
+        path="/",
+    )
+    return {"success": True, "officer": {"email": email, **officer}}
+
+
+LIVE_URL_FILE = os.path.join(PROJECT_ROOT, "LIVE_PUBLIC_URL.txt")
+
+def get_current_live_url() -> str:
+    """Reads the current active Cloudflare tunnel URL from disk."""
+    if os.path.exists(LIVE_URL_FILE):
+        try:
+            with open(LIVE_URL_FILE, "r", encoding="utf-8") as f:
+                content = f.read().strip()
+                if content.startswith("http"):
+                    return content
+        except Exception:
+            pass
+    return "https://layer-latino-release-decrease.trycloudflare.com"
+
+@app.get("/api/live-url")
+def api_get_live_url():
+    """Returns the current active public Cloudflare URL and gateway routes."""
+    url = get_current_live_url()
+    return {
+        "status": "online",
+        "public_url": url,
+        "local_url": "http://127.0.0.1:8000",
+        "admin_login": f"{url}/admin/login",
+        "admin_map": f"{url}/admin/map",
+        "officer": {
+            "email": "rajeshwar.ias@hyderabad.gov.in",
+            "name": "Admin",
+            "access_code": "GHMC-IAS-9081"
+        }
+    }
+
+@app.get("/live", response_class=HTMLResponse)
+@app.get("/hub", response_class=HTMLResponse)
+def serve_public_launchpad():
+    """Serves an executive public launchpad with 1-click links and mobile QR."""
+    pub_url = get_current_live_url()
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Akhand Bharat Seva - Public Cloud Launchpad</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    body {{
+      background: radial-gradient(circle at 50% 10%, #0d2346 0%, #071324 85%);
+      min-height: 100vh;
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }}
+  </style>
+</head>
+<body class="p-4 sm:p-8 flex items-center justify-center">
+  <div class="max-w-3xl w-full bg-slate-900/90 border border-amber-500/30 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-xl">
+    
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-800 pb-6 mb-6">
+      <div class="flex items-center gap-3 text-center sm:text-left">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center text-white text-2xl shadow-lg">
+          ☸
+        </div>
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Akhand Bharat Seva</h1>
+          <p class="text-xs uppercase tracking-wider text-amber-400 font-semibold mt-0.5">
+            Cloudflare Public Website & Municipal Gateway
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1.5 rounded-full text-emerald-400 text-xs font-bold">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>PRODUCTION ONLINE</span>
+      </div>
+    </div>
+
+    <!-- Live URL Showcase Banner -->
+    <div class="bg-gradient-to-r from-blue-950/80 via-slate-900 to-indigo-950/80 border border-blue-500/30 rounded-2xl p-5 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">
+          <i class="bi bi-globe2 text-blue-400 mr-1"></i> Active Global HTTPS URL:
+        </span>
+        <a id="publicUrlLink" href="{pub_url}" target="_blank" class="text-amber-300 hover:text-amber-200 font-mono text-sm sm:text-base font-bold break-all underline decoration-amber-500/50">
+          {pub_url}
+        </a>
+      </div>
+      <button onclick="navigator.clipboard.writeText('{pub_url}'); alert('Copied Public URL to clipboard!');" class="whitespace-nowrap bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow-md transition cursor-pointer">
+        <i class="bi bi-clipboard-check"></i> Copy URL
+      </button>
+    </div>
+
+    <!-- Action Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+      
+      <!-- Card 1: Citizen Portal -->
+      <a href="{pub_url}/" target="_blank" class="block bg-slate-800/60 hover:bg-slate-800/90 border border-slate-700/80 hover:border-amber-400/50 rounded-2xl p-5 transition group">
+        <div class="flex items-center justify-between mb-3">
+          <span class="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/30 text-orange-400 flex items-center justify-center text-lg">
+            <i class="bi bi-house-door-fill"></i>
+          </span>
+          <i class="bi bi-arrow-up-right text-slate-500 group-hover:text-amber-400 transition"></i>
+        </div>
+        <h3 class="font-bold text-white text-base group-hover:text-amber-300 transition">Citizen Web Portal</h3>
+        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+          File grievances with Gemma 4 multimodal damage assessment, multilingual voice/text, and GPS geo-tagging.
+        </p>
+      </a>
+
+      <!-- Card 2: Municipal Officer Login -->
+      <a href="{pub_url}/admin/login" target="_blank" class="block bg-slate-800/60 hover:bg-slate-800/90 border border-slate-700/80 hover:border-blue-400/50 rounded-2xl p-5 transition group">
+        <div class="flex items-center justify-between mb-3">
+          <span class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center justify-center text-lg">
+            <i class="bi bi-shield-lock-fill"></i>
+          </span>
+          <i class="bi bi-arrow-up-right text-slate-500 group-hover:text-blue-400 transition"></i>
+        </div>
+        <h3 class="font-bold text-white text-base group-hover:text-blue-300 transition">Municipal Officer Gateway</h3>
+        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+          Cryptographically signed HMAC-SHA256 login protecting command center access for verified officials.
+        </p>
+      </a>
+
+      <!-- Card 3: GIS Command Map -->
+      <a href="{pub_url}/admin/map" target="_blank" class="block bg-slate-800/60 hover:bg-slate-800/90 border border-slate-700/80 hover:border-emerald-400/50 rounded-2xl p-5 transition group">
+        <div class="flex items-center justify-between mb-3">
+          <span class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-lg">
+            <i class="bi bi-geo-alt-fill"></i>
+          </span>
+          <i class="bi bi-arrow-up-right text-slate-500 group-hover:text-emerald-400 transition"></i>
+        </div>
+        <h3 class="font-bold text-white text-base group-hover:text-emerald-300 transition">GIS Municipal Command Map</h3>
+        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+          24 Indian Municipal Corporations with Anti-Ping-Pong border dispatch and live ward hotspot analysis.
+        </p>
+      </a>
+
+      <!-- Card 4: Smart Priority Queue -->
+      <a href="{pub_url}/admin/priority-queue" target="_blank" class="block bg-slate-800/60 hover:bg-slate-800/90 border border-slate-700/80 hover:border-indigo-400/50 rounded-2xl p-5 transition group">
+        <div class="flex items-center justify-between mb-3">
+          <span class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 flex items-center justify-center text-lg">
+            <i class="bi bi-lightning-charge-fill"></i>
+          </span>
+          <i class="bi bi-arrow-up-right text-slate-500 group-hover:text-indigo-400 transition"></i>
+        </div>
+        <h3 class="font-bold text-white text-base group-hover:text-indigo-300 transition">Gemma 4 Priority Queue</h3>
+        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+          P0-Critical to P3 ranked triage queue enforcing 4-hour to 7-day SLAs with automated escalation timers.
+        </p>
+      </a>
+
+    </div>
+
+    <!-- Official Credentials Card -->
+    <div class="bg-slate-800/40 border border-slate-700/60 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div>
+        <span class="text-slate-400">Official Municipal Officer Login:</span>
+        <span class="font-mono font-bold text-white ml-1">rajeshwar.ias@hyderabad.gov.in</span>
+        <span class="text-slate-500 ml-1">(&nbsp;Officer Name:&nbsp;<strong class="text-amber-400">Admin</strong>&nbsp;)</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-slate-400">Access Code:</span>
+        <code class="bg-slate-900 border border-slate-700 text-blue-400 px-2 py-1 rounded font-mono font-bold">GHMC-IAS-9081</code>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>"""
 
 
 # -------------------------------------------------------------
