@@ -5,6 +5,11 @@
 > **Track 1:** Best Open-Source AI Product (GitLaunch Hub — OpenCode Nemotron 120B)  
 > **Track 2:** Civic Complaint Triage & Municipal Routing with Google Gemma 4 (E4B / 12B Multimodal + EmbeddingGemma 2)  
 > **License:** MIT License  
+>  
+> 🌐 **Active Live Public Web App**: [https://writer-hook-defining-contribute.trycloudflare.com](https://writer-hook-defining-contribute.trycloudflare.com)  
+> 🚀 **Executive Live Launchpad**: [https://writer-hook-defining-contribute.trycloudflare.com/live](https://writer-hook-defining-contribute.trycloudflare.com/live)  
+> 🔐 **Municipal Officer Portal**: [https://writer-hook-defining-contribute.trycloudflare.com/admin/login](https://writer-hook-defining-contribute.trycloudflare.com/admin/login)  
+> 🗺️ **GIS Admin Command Map**: [https://writer-hook-defining-contribute.trycloudflare.com/admin/map](https://writer-hook-defining-contribute.trycloudflare.com/admin/map)  
 
 ---
 
@@ -174,11 +179,11 @@ Use the header navigation tab to toggle between Track 1 and Track 2:
 
 The application is published to the public internet using **Cloudflare Edge Tunnel** (`cloudflared` + continuous auto-recovery watchdog):
 
-- **Live Public URL**: [https://influence-evolution-heaven-concentration.trycloudflare.com](https://influence-evolution-heaven-concentration.trycloudflare.com)
-- **Public Executive Launchpad**: [https://influence-evolution-heaven-concentration.trycloudflare.com/live](https://influence-evolution-heaven-concentration.trycloudflare.com/live)
+- **Live Public URL**: [https://writer-hook-defining-contribute.trycloudflare.com](https://writer-hook-defining-contribute.trycloudflare.com)
+- **Public Executive Launchpad**: [https://writer-hook-defining-contribute.trycloudflare.com/live](https://writer-hook-defining-contribute.trycloudflare.com/live)
 - **Local Dev Server**: [http://127.0.0.1:8000/](http://127.0.0.1:8000/) *(Launchpad at [http://127.0.0.1:8000/live](http://127.0.0.1:8000/live))*
-- **Municipal Officer Login**: [http://127.0.0.1:8000/admin/login](http://127.0.0.1:8000/admin/login) *(or [Cloudflare Admin Login](https://influence-evolution-heaven-concentration.trycloudflare.com/admin/login))*
-- **Admin GIS Command Map**: [http://127.0.0.1:8000/admin/map](http://127.0.0.1:8000/admin/map) *(or [Cloudflare Admin Map](https://influence-evolution-heaven-concentration.trycloudflare.com/admin/map))*
+- **Municipal Officer Login**: [http://127.0.0.1:8000/admin/login](http://127.0.0.1:8000/admin/login) *(or [Cloudflare Admin Login](https://writer-hook-defining-contribute.trycloudflare.com/admin/login))*
+- **Admin GIS Command Map**: [http://127.0.0.1:8000/admin/map](http://127.0.0.1:8000/admin/map) *(or [Cloudflare Admin Map](https://writer-hook-defining-contribute.trycloudflare.com/admin/map))*
 - **Quick Access Hub**: Docked directly on the bottom of the main website with 1-click links and dynamic status.
 
 To launch the full stack + public tunnel with a single click, double-click `START_WEBSITE_PUBLIC.bat` (or `PUBLISH_WEBSITE.bat`).
@@ -208,3 +213,34 @@ Access to administrative features (`/admin/*`) is strictly guarded by the Munici
 2. **Empirical Indian Urban Governance**: Rooted in actual MoHUA Swachhata taxonomies and Praja Foundation 10-year CCRS audit datasets.
 3. **Solves the "Municipal Ping-Pong" Problem**: The Google Maps border intersection engine issues joint cross-border dispatches so border residents are never bounced between rival corporations.
 4. **Anti-Fraud Work Verification**: First civic platform to use vision AI to verify genuine physical road restoration before marking complaints resolved.
+
+---
+
+## 📜 Hackathon Compliance & Dual-Layer Licensing
+
+> **Official Evaluation Reference**: Compliant with **Newton School of Technology Hack Day Hyderabad × SMRU (Major League Hacking)** guidelines.
+
+### 1. Mandatory Hackathon Verification Checklist
+| Evaluation Rule | Hackathon Requirement | Project Implementation & Proof | Status |
+| :--- | :--- | :--- | :---: |
+| **Rule 1: Name AI Model** | Explicitly state models used | **Track 1:** OpenCode Nemotron 120B / Qwen 2.5 Coder<br>**Track 2:** Google Gemma 4 E4B, Gemma 4 12B Multimodal, EmbeddingGemma 2 | ✅ Compliant |
+| **Rule 2: State Licences** | Project code & model licenses | **Project Code:** MIT License<br>**Model Weights:** Google Gemma Terms of Use & NVIDIA Open Model License | ✅ Compliant |
+| **Rule 3: Repository Visibility** | Public GitHub repository | Publicly visible repository with open commit history during the 12-hour build | ✅ Compliant |
+| **Rule 4: Open-Source Licence** | Permissive / OSI Open-Source | Full standard [MIT LICENSE](file:///C:/Users/Techcho/.gemini/antigravity/scratch/gitlaunch-contribution-finder/LICENSE) file committed in root directory | ✅ Compliant |
+| **Rule 5: Built During Event** | Built overnight Oct 30–31, 2026 | Commit logs and timestamps record overnight sprint build | ✅ Compliant |
+| **Rule 6: Working Live Demo** | Stable live demonstration | Live at [http://127.0.0.1:8000](http://127.0.0.1:8000) & [Cloudflare Live Tunnel](https://writer-hook-defining-contribute.trycloudflare.com) | ✅ Compliant |
+| **Track Separation** | Different problem statement per track | **Track 1:** Problem Statement #20 (Open-Source Contribution Finder)<br>**Track 2:** Problem Statement #15 (Civic Complaint Triage and Routing) | ✅ Compliant |
+
+### 2. Dual-Layer License Architecture
+* **Application Code License (MIT License)**:  
+  All source code, orchestration logic, FastAPI backend routing, GIS algorithms, and UI components created for this project are distributed under the permissive [MIT License](file:///C:/Users/Techcho/.gemini/antigravity/scratch/gitlaunch-contribution-finder/LICENSE).
+* **AI Model Weights Licenses (Upstream Terms of Use)**:  
+  In accordance with open-source AI legal standards, binary neural network weights are governed by their respective upstream creators:
+  - **Google Gemma 4 & EmbeddingGemma 2**: Governed by the official [Google Gemma Terms of Use](https://ai.google.dev/gemma/terms) and [Gemma Prohibited Use Policy](https://ai.google.dev/gemma/prohibited_use_policy). Used in compliance with research and non-harmful civic deployment terms.
+  - **OpenCode Nemotron 120B**: Governed by the [NVIDIA Open Model License](https://developer.nvidia.com/open-model-license) / Apache 2.0. Used via OpenCode local inference client for developer tooling and roadmap synthesis.
+
+### 3. Model Attribution & Source Repositories
+* **Google Gemma**: [https://ai.google.dev/gemma](https://ai.google.dev/gemma) | Hugging Face: `google/gemma-4-12b-it`, `google/embeddinggemma-2`
+* **OpenCode / Nemotron**: [https://huggingface.co/nvidia](https://huggingface.co/nvidia) | OpenCode Client: `nemotron-3.5-super-vl-120b`
+* **Framework Dependencies**: FastAPI (MIT), Uvicorn (BSD-3-Clause), Pydantic (MIT), Requests (Apache 2.0).
+

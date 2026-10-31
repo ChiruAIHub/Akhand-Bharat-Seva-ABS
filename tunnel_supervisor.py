@@ -12,12 +12,13 @@ import subprocess
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 CLOUDFLARED_BIN = os.path.join(PROJECT_ROOT, "cloudflared.exe")
 LIVE_URL_FILE = os.path.join(PROJECT_ROOT, "LIVE_PUBLIC_URL.txt")
+README_FILE = os.path.join(PROJECT_ROOT, "README.md")
 DIST_INDEX_FILE = os.path.join(PROJECT_ROOT, "frontend", "akhand_bharat_seva", "dist", "akhand-bharat-seva", "browser", "index.html")
 SRC_INDEX_FILE = os.path.join(PROJECT_ROOT, "frontend", "akhand_bharat_seva", "src", "index.html")
 
 def update_index_files(public_url: str):
-    """Updates the quick access dock links across both dist and src index.html files."""
-    for filepath in [DIST_INDEX_FILE, SRC_INDEX_FILE]:
+    """Updates the quick access dock links across dist, src index.html, and README.md."""
+    for filepath in [DIST_INDEX_FILE, SRC_INDEX_FILE, README_FILE]:
         if os.path.exists(filepath):
             try:
                 with open(filepath, "r", encoding="utf-8") as f:
