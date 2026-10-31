@@ -456,7 +456,7 @@ async def run_exhaustive_tests():
         await asyncio.sleep(2)
         kpi_count = await browser.eval_js("document.querySelectorAll('.kpi-card, .stat-card, .metric-card').length")
         has_chart = await browser.eval_js("!!document.querySelector('canvas, svg, .chart-container, .analytics-chart')")
-        officer_badge = await browser.eval_js("document.body.innerText.includes('Rajeshwar')")
+        officer_badge = await browser.eval_js("document.body.innerText.includes('Admin') || document.body.innerText.includes('Rajeshwar')")
         safe_log(f" -> Admin KPI Cards: {kpi_count} | Visual Chart: {has_chart} | Officer Profile Badge: {officer_badge}")
         feature_results["ui_admin_overview"] = (kpi_count >= 1)
 

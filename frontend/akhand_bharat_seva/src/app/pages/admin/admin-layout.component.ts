@@ -40,7 +40,7 @@ import { AuthService } from '../../services/auth.service';
           <div class="officer-profile">
             <div class="avatar-circle">{{ getInitials() }}</div>
             <div class="officer-info">
-              <span class="officer-name">{{ currentOfficer()?.name || 'K. Rajeshwar Rao, IAS' }}</span>
+              <span class="officer-name">{{ currentOfficer()?.name || 'Admin' }}</span>
               <span class="officer-role">{{ currentOfficer()?.role || 'Zonal Commissioner' }}</span>
             </div>
           </div>

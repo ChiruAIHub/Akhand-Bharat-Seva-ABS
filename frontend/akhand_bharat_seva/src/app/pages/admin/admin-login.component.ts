@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
-import { AuthService, AUTHORIZED_ROSTER } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-admin-login',
@@ -62,7 +62,7 @@ import { AuthService, AUTHORIZED_ROSTER } from '../../services/auth.service';
                   type="email"
                   [(ngModel)]="email"
                   name="email"
-                  placeholder="e.g. commissioner@ghmc.gov.in"
+                  placeholder="e.g. officer@hyderabad.gov.in"
                   class="form-control"
                   required
                   autocomplete="username"
@@ -132,19 +132,19 @@ import { AuthService, AUTHORIZED_ROSTER } from '../../services/auth.service';
               <button
                 type="button"
                 class="roster-chip chip-commissioner"
-                (click)="loadCredentials('commissioner@ghmc.gov.in', 'GHMC-IAS-2026')"
+                (click)="loadCredentials('rajeshwar.ias@hyderabad.gov.in', 'GHMC-IAS-9081')"
               >
-                <div class="chip-avatar">KR</div>
+                <div class="chip-avatar">AD</div>
                 <div class="chip-info">
                   <strong>Zonal Commissioner (GHMC)</strong>
-                  <span>K. Rajeshwar Rao, IAS &bull; Code: GHMC-IAS-2026</span>
+                  <span>Admin &bull; Code: GHMC-IAS-9081</span>
                 </div>
               </button>
 
               <button
                 type="button"
                 class="roster-chip chip-engineer"
-                (click)="loadCredentials('engineer@hmwssb.gov.in', 'HMWSSB-ENG-2026')"
+                (click)="loadCredentials('water.dept@hyderabad.gov.in', 'GHMC-HMWSSB-1032')"
               >
                 <div class="chip-avatar">VS</div>
                 <div class="chip-info">
@@ -156,7 +156,7 @@ import { AuthService, AUTHORIZED_ROSTER } from '../../services/auth.service';
               <button
                 type="button"
                 class="roster-chip chip-admin"
-                (click)="loadCredentials('admin@akhandbharat.gov.in', 'SEVA-ADMIN-2026')"
+                (click)="loadCredentials('admin.command@hyderabad.gov.in', 'GHMC-HQ-4421')"
               >
                 <div class="chip-avatar">PV</div>
                 <div class="chip-info">

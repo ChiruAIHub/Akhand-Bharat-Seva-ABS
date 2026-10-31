@@ -12,9 +12,9 @@ AUTH_SECRET_KEY = "akhand-bharat-seva-municipal-secret-key-2025"
 AUTHORIZED_MUNICIPAL_OFFICERS: Dict[str, Dict[str, str]] = {
     "rajeshwar.ias@hyderabad.gov.in": {
         "access_code": "GHMC-IAS-9081",
-        "name": "K. Rajeshwar Rao, IAS",
+        "name": "Admin",
         "role": "Zonal Commissioner",
-        "initials": "KR"
+        "initials": "AD"
     },
     "admin.command@hyderabad.gov.in": {
         "access_code": "GHMC-HQ-4421",

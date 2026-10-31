@@ -194,7 +194,7 @@ Access to administrative features (`/admin/*`) is strictly guarded by the Munici
 
 | Officer Name | Department | Official Email | Access Code | Role |
 | :--- | :--- | :--- | :--- | :--- |
-| **K. Rajeshwar Rao, IAS** | Zonal Commissioner (KR) | `rajeshwar.ias@hyderabad.gov.in` | `GHMC-IAS-9081` | Full Command & Control |
+| **Admin** | Zonal Administration (AD) | `rajeshwar.ias@hyderabad.gov.in` | `GHMC-IAS-9081` | Full Command & Control |
 | **Control Room Commander** | Central Command (CR) | `admin.command@hyderabad.gov.in` | `GHMC-HQ-4421` | Emergency Dispatch |
 | **V. Ramesh** | Executive Engineer, HMWSSB (VR) | `water.dept@hyderabad.gov.in` | `GHMC-HMWSSB-1032` | Water Supply & Drainage |
 | **A. Radhika** | Superintending Engineer, R&B (AR) | `roads.dept@hyderabad.gov.in` | `GHMC-RND-5541` | Roads, Potholes & Bridges |
