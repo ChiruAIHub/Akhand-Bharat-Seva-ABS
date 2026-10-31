@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-10-31T06:51:28Z",
+  "timestamp": "2026-10-31T07:54:38Z",
   "total_checks": 27,
-  "passed_checks": 27,
-  "failed_checks": 0,
+  "passed_checks": 24,
+  "failed_checks": 3,
   "results": {
     "api_health": true,
     "api_civic_taxonomy": true,
@@ -22,17 +22,21 @@
     "ui_public_issues": true,
     "ui_help": true,
     "ui_municipal_login_gateway": true,
-    "ui_admin_overview": true,
-    "ui_admin_priority_queue": true,
+    "ui_admin_overview": false,
+    "ui_admin_priority_queue": false,
     "ui_admin_all_complaints": true,
-    "ui_admin_map": true,
+    "ui_admin_map": false,
     "ui_admin_departments": true,
     "ui_admin_analytics": true,
     "ui_admin_settings": true,
     "ui_gemma_hud": true,
     "browser_clean_runtime": true
   },
-  "flaws_detected": [],
+  "flaws_detected": [
+    "ui_admin_overview",
+    "ui_admin_priority_queue",
+    "ui_admin_map"
+  ],
   "console_errors_count": 0,
   "console_warnings_count": 1,
   "js_exceptions_count": 0

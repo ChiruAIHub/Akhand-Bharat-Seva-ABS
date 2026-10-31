@@ -218,11 +218,12 @@ class MunicipalLoginRequest(BaseModel):
 # -------------------------------------------------------------
 @app.get("/health")
 @app.get("/api/health")
-def get_health():
+def get_health(request: Request = None):
     """Confirms backend, OpenCode, and Gemma 4 Civic AI engines are online."""
     repos = load_repositories()
     issues = load_issues()
     civic_complaints = civic_complaint_service.list_all_complaints()
+    base_url = str(request.base_url).rstrip("/") if request else "http://localhost:8000"
     return {
         "status": "online",
         "service": "GitLaunch & Civic Triage Unified AI Hub",
@@ -237,8 +238,9 @@ def get_health():
             "Track 1: Best Open-Source AI Product (GitLaunch)",
             "Track 2: Civic Complaint Triage & Routing with Gemma"
         ],
-        "docs_url": "http://localhost:8000/docs",
-        "web_ui": "http://localhost:8000/"
+        "docs_url": f"{base_url}/docs",
+        "web_ui": f"{base_url}/",
+        "public_live_url": get_current_live_url()
     }
 
 # -------------------------------------------------------------
@@ -734,19 +736,35 @@ def serve_public_launchpad():
       </div>
     </div>
 
-    <!-- Live URL Showcase Banner -->
-    <div class="bg-gradient-to-r from-blue-950/80 via-slate-900 to-indigo-950/80 border border-blue-500/30 rounded-2xl p-5 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div>
+    <!-- Live URL Showcase & QR Banner -->
+    <div class="bg-gradient-to-r from-blue-950/80 via-slate-900 to-indigo-950/80 border border-blue-500/30 rounded-2xl p-5 mb-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex-1">
         <span class="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">
           <i class="bi bi-globe2 text-blue-400 mr-1"></i> Active Global HTTPS URL:
         </span>
         <a id="publicUrlLink" href="{pub_url}" target="_blank" class="text-amber-300 hover:text-amber-200 font-mono text-sm sm:text-base font-bold break-all underline decoration-amber-500/50">
           {pub_url}
         </a>
+        <div class="mt-3 flex items-center gap-2">
+          <button onclick="navigator.clipboard.writeText('{pub_url}'); alert('Copied Public URL to clipboard!');" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 shadow-md transition cursor-pointer">
+            <i class="bi bi-clipboard-check"></i> Copy URL
+          </button>
+          <a href="{pub_url}/" target="_blank" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 shadow-md transition">
+            <i class="bi bi-box-arrow-up-right"></i> Open Portal
+          </a>
+        </div>
       </div>
-      <button onclick="navigator.clipboard.writeText('{pub_url}'); alert('Copied Public URL to clipboard!');" class="whitespace-nowrap bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow-md transition cursor-pointer">
-        <i class="bi bi-clipboard-check"></i> Copy URL
-      </button>
+      <!-- QR Code for Instant Phone Scanning -->
+      <div class="flex flex-col items-center bg-slate-950/80 p-3 rounded-xl border border-slate-700/60 shadow-inner">
+        <img 
+          src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&margin=4&data={pub_url}" 
+          alt="Scan with Phone" 
+          class="w-24 h-24 rounded-lg bg-white p-1"
+        >
+        <span class="text-[10px] text-slate-400 font-medium mt-1.5 flex items-center gap-1">
+          <i class="bi bi-qr-code-scan text-amber-400"></i> Scan to open on mobile
+        </span>
+      </div>
     </div>
 
     <!-- Action Grid -->
