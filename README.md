@@ -170,6 +170,23 @@ Use the header navigation tab to toggle between Track 1 and Track 2:
 
 ---
 
+## 🔐 Municipal Officer Authentication Gateway
+
+Access to administrative features (`/admin/*`) is strictly guarded by the Municipal Officer Gateway:
+
+- **Login Portal**: `http://127.0.0.1:8000/admin/login`
+- **Security Mechanism**: Cryptographic HMAC-SHA256 session tokens with tamper-proof signature validation.
+- **Roster of Authorized Municipal Personnel**:
+
+| Officer Name | Department | Official Email | Access Code | Role |
+| :--- | :--- | :--- | :--- | :--- |
+| **K. Rajeshwar Rao, IAS** | Zonal Commissioner (KR) | `rajeshwar.ias@hyderabad.gov.in` | `GHMC-IAS-9081` | Full Command & Control |
+| **Control Room Commander** | Central Command (CR) | `admin.command@hyderabad.gov.in` | `GHMC-HQ-4421` | Emergency Dispatch |
+| **V. Ramesh** | Executive Engineer, HMWSSB (VR) | `water.dept@hyderabad.gov.in` | `GHMC-HMWSSB-1032` | Water Supply & Drainage |
+| **A. Radhika** | Superintending Engineer, R&B (AR) | `roads.dept@hyderabad.gov.in` | `GHMC-RND-5541` | Roads, Potholes & Bridges |
+
+---
+
 ## 🏆 Hackathon Submission Highlights
 
 1. **Deep Gemma 4 Integration**: Demonstrates Gemma across text (NLU), vision (12B multimodal physical inspection), and vector embeddings (EmbeddingGemma 2 semantic deduplication).
